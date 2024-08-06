@@ -90,19 +90,17 @@ void RandomScatterWidget::setState(State newState)
     else if (s0 == S_RUNNING && s1 == S_IDLE) {
         d->removeProvider();
     }
-    // РАБОТА - ПАУЗА: приостановка потока
+    // РАБОТА - ПАУЗА: приостановка провайдера
     else if (s0 == S_RUNNING && s1 == S_PAUSED) {
         emit stopRequest(QPrivateSignal());
     }
-    // ПАУЗА - РАБОТА: запуск потока
+    // ПАУЗА - РАБОТА: запуск провайдера
     else if (s0 == S_PAUSED && s1 == S_RUNNING) {
         emit startRequest(QPrivateSignal());
     }
-    // ПАУЗА - СОСТОЯНИЕ ПОКОЯ: отправка сигнала на удаление провайдера и запуск
-    // потока
+    // ПАУЗА - СОСТОЯНИЕ ПОКОЯ: отправка сигнала на удаление провайдера
     else if (s0 == S_PAUSED && s1 == S_IDLE) {
         d->removeProvider();
-        d->providerThread->start();
     }
     // Остальные переходы невалидны
     else {
